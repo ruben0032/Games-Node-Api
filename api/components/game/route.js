@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.get('/', gameController.getAllGames);
 
-router.get('/error', gameController.getError);
+router.post('/', gameController.postGame);
 
 module.exports = router;

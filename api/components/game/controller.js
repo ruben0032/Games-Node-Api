@@ -1,11 +1,25 @@
 const response = require('../../../network/response');
 const tryCatchFn = require('../../../utils/tryCatchFn');
+const games = require('../../../store/sequelize/game');
 
 module.exports = {
   getAllGames: tryCatchFn(async (req, res) => {
-    response.succes(req, res, [{ id: 1, title: 'prueba' }], 201);
+    const gameList = await games.getGames();
+    if (!gameList[0]) {
+      response.error(req, res, 'No se encontro ningun VideoJuego', 404);
+    }
+    response.succes(req, res, gameList, 200);
   }),
-  getError: tryCatchFn(async (req, res) => {
-    throw Error;
+  postGame: tryCatchFn(async (req, res) => {
+    const {
+      title, description, publicDate, studio,
+    } = req.body;
+    const id = await games.postGame({
+      title, description, publicDate, studio,
+    });
+    if (!id) {
+      response.error(req, res, 'No fue posible agregar el VideoJuego', 400);
+    }
+    response.succes(req, res, 'VideoJuego agregado exitosamente', 201);
   }),
 };

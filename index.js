@@ -3,6 +3,7 @@ const config = require('./config');
 const gameRoutes = require('./api/components/game/route');
 const errors = require('./network/errors');
 const notFound = require('./network/notFound');
+const { sequelize } = require('./store/connexion');
 
 const app = express();
 
@@ -12,7 +13,7 @@ app.get('/', (req, res) => {
   res.send('Funcionando');
 });
 
-app.use('/game', gameRoutes);
+app.use('/api/game', gameRoutes);
 
 // respuesta por defecto (rutas no existentes)
 app.use('*', notFound);
@@ -20,6 +21,11 @@ app.use('*', notFound);
 // errores globales (despues de todas las rutas)
 app.use(errors);
 
-app.listen(config.api.port, () => {
-  console.log(`server on: ${config.api.port}`);
+app.listen(config.api.port, async () => {
+  try {
+    await sequelize.sync({ force: false });
+    console.log(`server on: ${config.api.port}`);
+  } catch (error) {
+    console.log(`Unable to connect: ${error}`);
+  }
 });
