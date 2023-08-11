@@ -2,6 +2,7 @@ const express = require('express');
 const config = require('./config');
 const gameRoutes = require('./api/components/game/route');
 const errors = require('./network/errors');
+const sequelizeErrors = require('./network/sequelizeErrors');
 const notFound = require('./network/notFound');
 const { sequelize } = require('./store/connexion');
 
@@ -19,6 +20,7 @@ app.use('/api/game', gameRoutes);
 app.use('*', notFound);
 
 // errores globales (despues de todas las rutas)
+app.use(sequelizeErrors);
 app.use(errors);
 
 app.listen(config.api.port, async () => {
