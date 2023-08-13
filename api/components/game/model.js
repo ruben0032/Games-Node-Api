@@ -32,6 +32,6 @@ const Game = sequelize.define('game', { // define:metodo para crear tablas en db
 //     type: DataTypes.TEXT,
 //     allowNull: false,
 //   },
-}, { timestamps: false });
+});
 
 module.exports = Game;
