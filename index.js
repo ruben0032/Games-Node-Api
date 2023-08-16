@@ -26,7 +26,7 @@ app.use(errors);
 
 app.listen(config.api.port, async () => {
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
     console.log(`server on: ${config.api.port}`);
   } catch (error) {
     console.log(`Unable to connect: ${error}`);

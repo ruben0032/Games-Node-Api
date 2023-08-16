@@ -2,13 +2,15 @@ const Game = require('../../api/components/game/model');
 
 module.exports = {
   postGame: async ({
-    title, description, publicDate, studio,
+    title, description, publicDate, studio, typeId, publisherId,
   }) => {
     const newGame = await Game.create({
       title,
       description,
       publicDate,
       studio,
+      typeId,
+      publisherId,
     });
     return newGame.id;
   },
